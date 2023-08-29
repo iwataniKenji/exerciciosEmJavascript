@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Exercícios de Eventos</title>
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9tb29kbGUudXRmcHIuZWR1LmJyL3BsdWdpbmZpbGUucGhwLzMwMTM1MDkvbW9kX3Jlc291cmNlL2NvbnRlbnQvMC8wMC1yZXZpc2FvLWphdmFzY3JpcHQtZXZlbnRvcy1leGVyY2ljaW9zLmh0bWw"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9tb29kbGUudXRmcHIuZWR1LmJyL3BsdWdpbmZpbGUucGhwLzMwMTM1MDkvbW9kX3Jlc291cmNlL2NvbnRlbnQvMC8wMC1yZXZpc2FvLWphdmFzY3JpcHQtZXZlbnRvcy1leGVyY2ljaW9zLmh0bWw"
+    />
+    <script
+      type="text/javascript"
+      src="chrome-extension://pbichgopagjidnkeaablhiediibgbmec/3rdparty/sizzle.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="chrome-extension://pbichgopagjidnkeaablhiediibgbmec/injection/injection.js"
+    ></script>
+  </head>
+  <body class="vsc-initialized">
+    <div id="esg_atica"></div>
+    <h1>Exercícios sobre JS, ES6, Contexto e OO</h1>
+
+    <p>
+      <span>Exercício 1: </span> implemente uma função que ao clicar no botão
+      exercício 1 a seguir, insira o valor do input como um elemento li no
+      elemento ul a seguir. Utilize o conceito de
+      <a href="http://es6-features.org/#StringInterpolation"
+        >string interpolation</a
+      >
+    </p>
+    <p>
+      <input type="text" class="input01" />
+      <button class="btn01">exercício 1</button>
+    </p>
+    <ul class="list01"></ul>
+
+    <script type="text/javascript" charset="utf-8">
+      const button01 = document.querySelector(".btn01");
+      const input01 = document.querySelector(".input01");
+      const list01 = document.querySelector(".list01");
+
+      button01.addEventListener("click", () => {
+        const newItem = `<li>${input01.value}</li>`;
+
+        list01.insertAdjacentHTML("beforeend", newItem);
+        input01.value = "";
+      });
+    </script>
+
+    <p>
+      <span>Exercício 2: </span> implemente uma função que atualize o valor do
+      elemento li, enquanto o usuário digita. Utilize o evento keyup ou keydown.
+    </p>
+    <p>
+      <input type="text" class="input02" />
+    </p>
+    <ul class="list02"></ul>
+
+    <script type="text/javascript" charset="utf-8">
+      const input02 = document.querySelector(".input02");
+      const list02 = document.querySelector(".list02");
+
+      input02.addEventListener("keyup", () => {
+        const newItem = `<li>${input02.value}</li>`;
+
+        list02.innerHTML = newItem;
+      });
+    </script>
+
+    <p>
+      <span>Exercício 3: </span> implemente uma função que receba como parâmetro
+      um vetor com os seguintes valores de tipo String: abacate, uva, maracujá,
+      mamão, cereja, jaboticaba, jaca, guaraná. Para cade elemento do vetor,
+      deve ser gerado um elemento li com o valor da String; e inserido no
+      elemento ul a seguir. Utilize o método forEach do Array.
+    </p>
+    <ul class="list03"></ul>
+
+    <script type="text/javascript" charset="utf-8">
+      const fruits = [
+        "abacate",
+        "uva",
+        "maracujá",
+        "mamão",
+        "cereja",
+        "jaboticaba",
+        "jaca",
+        "guaraná",
+      ];
+
+      const list03 = document.querySelector(".list03");
+
+      function getListElements(array) {
+        array.forEach((element) => {
+          const newItem = `<li>${element}</li>`;
+
+          list03.insertAdjacentHTML("beforeend", newItem);
+        });
+      }
+    </script>
+
+    <p>
+      <span>Exercício 4: </span> Extenda o exercício anterior, mas no elemento
+      input, deve ser implementada uma função de busca pelas Strings que
+      começarem com as mesmas letras inseridas no input. Utilize o método filter
+      do Array.
+    </p>
+    <p>
+      <input type="text" class="input04" />
+    </p>
+
+    <script type="text/javascript" charset="utf-8">
+      const input04 = document.querySelector(".input04");
+
+      input04.addEventListener("keyup", () => {
+        const filteredFruits = fruits.filter((fruit) =>
+          fruit.startsWith(input04.value)
+        );
+
+        list03.innerHTML = "";
+        getListElements(filteredFruits);
+      });
+    </script>
+
+    <p>
+      <span>Exercício 5: </span> extenda o exercício anterior, armazene os
+      valores do vetor dentro de objetos JavaScript com as propriedades nome
+      como valor da String e checked como um booleano de valor false. O valor da
+      variável booleana deve ser apresentado em um checkbox dentro do elemento
+      li. Se o checkbox for clicado, o checkbox deve ser checado e o valor tem
+      que ser refletido no vetor de valores (como uma TodoList). Utilize o
+      método map do Array.
+    </p>
+
+    <script type="text/javascript" charset="utf-8">
+      const fruitsChecklist = {
+        abacate: false,
+        uva: false,
+        maracujá: false,
+        mamão: false,
+        cereja: false,
+        jaboticaba: false,
+        jaca: false,
+        guaraná: false,
+      };
+
+      function getChecklistElements(array) {
+        array.map((element) => {
+          const newItem = `<li><input type="checkbox" />${element}</li>`;
+
+          list03.insertAdjacentHTML("beforeend", newItem);
+        });
+      }
+
+      getChecklistElements(fruits);
+    </script>
+
+    <p>
+      <span>Exercício 6: </span> extenda o exercício anterior, e apresente o
+      elemento p a seguir o número de elementos do vetor que foram checados.
+      Utilize o método filter ou reduce do Array.
+    </p>
+
+    <script type="text/javascript" charset="utf-8">
+      function checkHowManyAreChecked() {
+        const checkedFruits = Object.values(fruitsChecklist).filter(
+          (fruit) => fruit === true
+        );
+
+        const p = document.createElement("p");
+        p.innerHTML = `Frutas selecionadas: ${checkedFruits.length}`;
+
+        document.body.appendChild(p);
+      }
+    </script>
+
+    <p>
+      <span>Exercício 7: </span> encapsule toda a lógica dos exercícios
+      anteriores (3-6) dentro de uma classe, utilizando o conceito de closures
+      ou classes do ES6. Implemente uma funcionalidade de inserção de novos
+      elementos na lista.
+    </p>
+  </body>
+  <evlist esg_capou="1"></evlist>
+</html>
