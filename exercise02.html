@@ -82,29 +82,6 @@
     </p>
     <ul class="list03"></ul>
 
-    <script type="text/javascript" charset="utf-8">
-      const fruits = [
-        "abacate",
-        "uva",
-        "maracujá",
-        "mamão",
-        "cereja",
-        "jaboticaba",
-        "jaca",
-        "guaraná",
-      ];
-
-      const list03 = document.querySelector(".list03");
-
-      function getListElements(array) {
-        array.forEach((element) => {
-          const newItem = `<li>${element}</li>`;
-
-          list03.insertAdjacentHTML("beforeend", newItem);
-        });
-      }
-    </script>
-
     <p>
       <span>Exercício 4: </span> Extenda o exercício anterior, mas no elemento
       input, deve ser implementada uma função de busca pelas Strings que
@@ -115,21 +92,8 @@
       <input type="text" class="input04" />
     </p>
 
-    <script type="text/javascript" charset="utf-8">
-      const input04 = document.querySelector(".input04");
-
-      input04.addEventListener("keyup", () => {
-        const filteredFruits = fruits.filter((fruit) =>
-          fruit.startsWith(input04.value)
-        );
-
-        list03.innerHTML = "";
-        getListElements(filteredFruits);
-      });
-    </script>
-
     <p>
-      <span>Exercício 5: </span> extenda o exercício anterior, armazene os
+      <span>Exercício 5: </span> Extenda o exercício anterior, armazene os
       valores do vetor dentro de objetos JavaScript com as propriedades nome
       como valor da String e checked como um booleano de valor false. O valor da
       variável booleana deve ser apresentado em um checkbox dentro do elemento
@@ -138,47 +102,11 @@
       método map do Array.
     </p>
 
-    <script type="text/javascript" charset="utf-8">
-      const fruitsChecklist = {
-        abacate: false,
-        uva: false,
-        maracujá: false,
-        mamão: false,
-        cereja: false,
-        jaboticaba: false,
-        jaca: false,
-        guaraná: false,
-      };
-
-      function getChecklistElements(array) {
-        array.map((element) => {
-          const newItem = `<li><input type="checkbox" />${element}</li>`;
-
-          list03.insertAdjacentHTML("beforeend", newItem);
-        });
-      }
-
-      getChecklistElements(fruits);
-    </script>
-
     <p>
-      <span>Exercício 6: </span> extenda o exercício anterior, e apresente o
+      <span>Exercício 6: </span> Extenda o exercício anterior, e apresente o
       elemento p a seguir o número de elementos do vetor que foram checados.
       Utilize o método filter ou reduce do Array.
     </p>
-
-    <script type="text/javascript" charset="utf-8">
-      function checkHowManyAreChecked() {
-        const checkedFruits = Object.values(fruitsChecklist).filter(
-          (fruit) => fruit === true
-        );
-
-        const p = document.createElement("p");
-        p.innerHTML = `Frutas selecionadas: ${checkedFruits.length}`;
-
-        document.body.appendChild(p);
-      }
-    </script>
 
     <p>
       <span>Exercício 7: </span> encapsule toda a lógica dos exercícios
@@ -186,6 +114,104 @@
       ou classes do ES6. Implemente uma funcionalidade de inserção de novos
       elementos na lista.
     </p>
+
+    <script type="text/javascript" charset="utf-8">
+      class FruitList {
+        constructor() {
+          this.fruits = [
+            "abacate",
+            "uva",
+            "maracujá",
+            "mamão",
+            "cereja",
+            "jaboticaba",
+            "jaca",
+            "guaraná",
+          ];
+
+          this.fruitsChecklist = this.fruits.map((fruit) => ({
+            [fruit]: false,
+          }));
+
+          this.list = document.querySelector(".list03");
+          this.input = document.querySelector(".input04");
+        }
+
+        getBulletElements() {
+          this.fruits.forEach((element) => {
+            const newItem = `<li>${element}</li>`;
+
+            this.list.insertAdjacentHTML("beforeend", newItem);
+          });
+        }
+
+        getChecklistElements() {
+          this.fruitsChecklist.forEach((element) => {
+            const key = Object.keys(element)[0];
+            const value = element[key];
+
+            const newItem = `<li><input type="checkbox" ${
+              value ? "checked" : ""
+            } /> ${key}</li>`;
+
+            this.list.insertAdjacentHTML("beforeend", newItem);
+          });
+        }
+
+        checkFruit(fruit) {
+          const key = Object.keys(fruit)[0];
+          const value = fruit[key];
+
+          this.fruitsChecklist[key] = !value;
+        }
+
+        checkFruitElement(element) {
+          const key = Object.keys(element)[0];
+          const value = element[key];
+
+          const newItem = `<li><input type="checkbox" ${
+            value ? "checked" : ""
+          } onchange="checkFruit(${JSON.stringify(element)})" /> ${key}</li>`;
+
+          this.list.insertAdjacentHTML("beforeend", newItem);
+        }
+
+        checkHowManyAreChecked() {
+          const checkedFruits = Object.values(this.fruitsChecklist).filter(
+            (fruit) => fruit === true
+          );
+
+          const p = document.createElement("p");
+          p.innerHTML = `Frutas selecionadas: ${checkedFruits.length}`;
+
+          document.body.appendChild(p);
+        }
+
+        filterFruits() {
+          const filteredFruits = this.fruitsChecklist.filter((fruit) =>
+            Object.keys(fruit)[0].startsWith(this.input.value)
+          );
+
+          this.list.innerHTML = "";
+          this.getChecklistElements(filteredFruits);
+        }
+
+        addFruit(fruit) {
+          this.fruits.push(fruit);
+          this.fruits
+            .map((fruit) => ({ [fruit]: false }))
+            .forEach((element) => this.fruitsChecklist.push(element));
+
+          this.list.innerHTML = "";
+          this.getChecklistElements();
+        }
+      }
+
+      const fruitList = new FruitList();
+
+      fruitList.getChecklistElements();
+      fruitList.checkHowManyAreChecked();
+    </script>
   </body>
   <evlist esg_capou="1"></evlist>
 </html>
