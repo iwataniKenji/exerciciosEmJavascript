@@ -34,12 +34,33 @@
       <li>Paginação da dummyjson API na parte de produtos</li>
       <!--<li>Implementar os exercícios, utilizando apenas uma vez as diretivas de async/await e sem inserir uma promise dentro da outra.</li>-->
     </ul>
+    <ul class="product-list"></ul>
 
-    <script type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      const list = document.querySelector(".product-list");
+      
+      fetch('https://dummyjson.com/products/')
+      .then(res => res.json())
+      .then(json => {
+        const products = json.products.map(product => {
+          return {
+            title: product.title,
+            image: product.images[0],
+          }
+        })
 
-    <script
-      type="text/javascript"
-      src="https://www.googletagmanager.com/gtag/js?id=G-G2JSW5YPMJ&amp;l=esg_obraria"
-    ></script>
+        products.forEach(product => {
+          const item = `
+            <li>
+              <span>${product.title}</span>
+              <img src="${product.image}" alt="${product.title}" />
+            </li>
+          `
+
+          list.insertAdjacentHTML("beforeend", item);
+        })
+      })
+
+    </script>
   </body>
 </html>
