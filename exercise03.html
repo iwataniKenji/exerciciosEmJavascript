@@ -36,7 +36,8 @@
     </ul>
     <ul class="product-list"></ul>
 
-    <script type="text/javascript" charset="utf-8">
+    <!-- <script type="text/javascript" charset="utf-8">
+      // com promise
       const list = document.querySelector(".product-list");
       
       fetch('https://dummyjson.com/products/')
@@ -50,16 +51,50 @@
         })
 
         products.forEach(product => {
+          const { title, image } = product;
+
           const item = `
             <li>
-              <span>${product.title}</span>
-              <img src="${product.image}" alt="${product.title}" />
+              <span>${title}</span>
+              <img src="${image}" alt="${title}" />
             </li>
           `
 
           list.insertAdjacentHTML("beforeend", item);
         })
       })
+    </script> -->
+
+    <script type="text/javascript" charset="utf-8">
+      // com asyn await
+      const list = document.querySelector(".product-list");
+      
+      async function getElements() {
+        const response = await fetch('https://dummyjson.com/products/');
+        const json = await response.json();
+
+        const products = json.products.map(product => {
+          return {
+            title: product.title,
+            image: product.images[0],
+          }
+        })
+
+        products.forEach(product => {
+          const { title, image } = product;
+
+          const item = `
+            <li>
+              <span>${title}</span>
+              <img src="${image}" alt="${title}" />
+            </li>
+          `
+
+          list.insertAdjacentHTML("beforeend", item);
+        })
+      }
+
+      getElements();
 
     </script>
   </body>
